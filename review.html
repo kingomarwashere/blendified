@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leave a Review — Blendified</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C96A;
+      --black: #0A0A0A;
+      --dark: #111;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #f0ede8;
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    /* ── Screen nav ── */
+    .screen-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #222;
+      z-index: 10;
+    }
+    .screen-nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .screen-nav a:hover { color: var(--gold); }
+    .nav-logo {
+      background: #fff;
+      border-radius: 5px;
+      padding: 4px 8px;
+      display: inline-flex;
+    }
+    .nav-logo img { height: 28px; width: auto; }
+
+    .print-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .print-btn:hover { background: var(--gold-light); }
+
+    /* ── Card ── */
+    .card-wrap {
+      margin-top: 80px;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.18);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* top gold bar */
+    .card::before {
+      content: '';
+      display: block;
+      height: 6px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+    }
+
+    .card-body {
+      padding: 48px 56px 52px;
+      text-align: center;
+    }
+
+    .card-logo {
+      margin-bottom: 32px;
+    }
+    .card-logo img {
+      height: 72px;
+      width: auto;
+    }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin: 0 auto 28px;
+    }
+
+    .headline {
+      font-family: var(--font-display);
+      font-size: 52px;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+
+    .subline {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .stars {
+      font-size: 36px;
+      letter-spacing: 4px;
+      margin-bottom: 36px;
+    }
+
+    .qr-wrap {
+      display: inline-block;
+      padding: 16px;
+      border: 2px solid #eee;
+      border-radius: 10px;
+      margin-bottom: 24px;
+      background: #fff;
+    }
+    .qr-wrap canvas, .qr-wrap img {
+      display: block;
+      width: 200px !important;
+      height: 200px !important;
+    }
+
+    .scan-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .review-url {
+      font-size: 12px;
+      color: #aaa;
+      word-break: break-all;
+      margin-bottom: 36px;
+    }
+
+    .or-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .or-line { flex: 1; height: 1px; background: #eee; }
+    .or-text { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #bbb; }
+
+    .review-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--gold);
+      color: #000;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      margin-bottom: 40px;
+      transition: background 0.2s;
+    }
+    .review-link:hover { background: var(--gold-light); }
+
+    .card-footer-strip {
+      border-top: 1px solid #f0ede8;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fafaf9;
+    }
+    .card-footer-strip address {
+      font-style: normal;
+      font-size: 12px;
+      color: #999;
+      line-height: 1.6;
+    }
+    .card-footer-strip .social {
+      font-size: 12px;
+      color: #bbb;
+      text-align: right;
+      line-height: 1.8;
+    }
+    .card-footer-strip .social a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* bottom gold bar */
+    .card::after {
+      content: '';
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      body {
+        background: #fff;
+        padding: 0;
+        display: block;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .screen-nav,
+      .print-btn,
+      .or-row,
+      .review-link { display: none !important; }
+
+      .card-wrap {
+        margin: 0;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .card {
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+      }
+
+      .card-body { padding: 60px 80px 60px; }
+
+      .headline { font-size: 64px; }
+      .stars { font-size: 44px; }
+
+      .qr-wrap {
+        padding: 20px;
+      }
+      .qr-wrap canvas, .qr-wrap img {
+        width: 240px !important;
+        height: 240px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen only nav -->
+  <nav class="screen-nav">
+    <a href="index.html">← Back to site</a>
+    <a href="index.html" class="nav-logo"><img src="logo.jpg" alt="Blendified" /></a>
+    <button class="print-btn" onclick="window.print()">🖨 Print</button>
+  </nav>
+
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="card-logo">
+          <img src="logo.jpg" alt="Blendified" />
+        </div>
+
+        <div class="divider"></div>
+
+        <h1 class="headline">Loved<br/>your cut?</h1>
+        <p class="subline">Tell the world — your review helps other people<br/>find great cuts at Blendified.</p>
+
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+
+        <p class="scan-label">Scan to leave a review</p>
+        <div class="qr-wrap">
+          <canvas id="qr"></canvas>
+        </div>
+        <p class="review-url">search.google.com/local/writereview?placeid=ChIJabJoPAC7EmsRIwhq6cmAbTc</p>
+
+        <div class="or-row">
+          <div class="or-line"></div>
+          <span class="or-text">or tap the link</span>
+          <div class="or-line"></div>
+        </div>
+
+        <a href="https://search.google.com/local/writereview?placeid=ChIJabJoPAC7EmsRIwhq6cmAbTc"
+           target="_blank" rel="noopener" class="review-link">
+          ★ Leave a Google Review
+        </a>
+
+      </div>
+
+      <div class="card-footer-strip">
+        <address>
+          Blendified<br/>
+          46 Rossmore Ave, Punchbowl NSW 2196<br/>
+          0414 946 035
+        </address>
+        <div class="social">
+          <a href="https://www.instagram.com/blendified_/" target="_blank">@blendified_</a><br/>
+          instagram &amp; tiktok
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    QRCode.toCanvas(
+      document.getElementById('qr'),
+      'https://search.google.com/local/writereview?placeid=ChIJabJoPAC7EmsRIwhq6cmAbTc',
+      {
+        width: 200,
+        margin: 1,
+        color: { dark: '#0A0A0A', light: '#ffffff' },
+        errorCorrectionLevel: 'H'
+      },
+      err => { if (err) console.error(err); }
+    );
+  </script>
+</body>
+</html>
