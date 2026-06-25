@@ -136,16 +136,21 @@ section { padding: 100px 0; }
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  background: #fff;
+  border-radius: 6px;
+  padding: 5px 10px;
 }
 .logo-img img {
-  height: 48px;
-  width: 48px;
-  border-radius: 50%;
-  object-fit: cover;
+  height: 36px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+.logo-img-footer {
+  padding: 4px 8px;
 }
 .logo-img-footer img {
-  height: 40px;
-  width: 40px;
+  height: 28px;
 }
 
 .logo {
@@ -564,7 +569,7 @@ section { padding: 100px 0; }
 .gi-5 { background: linear-gradient(135deg, #1a1a1a 0%, #241e12 100%); }
 .gi-6 { background: linear-gradient(135deg, #161616 0%, #201a0e 100%); }
 
-.gallery-item::before {
+.gallery-item:not([style])::before {
   content: '💈';
   position: absolute;
   top: 50%;
