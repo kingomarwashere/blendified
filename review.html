@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -155,10 +154,10 @@
       margin-bottom: 24px;
       background: #fff;
     }
-    .qr-wrap canvas, .qr-wrap img {
+    .qr-wrap img {
       display: block;
-      width: 200px !important;
-      height: 200px !important;
+      width: 200px;
+      height: 200px;
     }
 
     .scan-label {
@@ -277,9 +276,9 @@
       .qr-wrap {
         padding: 20px;
       }
-      .qr-wrap canvas, .qr-wrap img {
-        width: 240px !important;
-        height: 240px !important;
+      .qr-wrap img {
+        width: 240px;
+        height: 240px;
       }
     }
   </style>
@@ -310,7 +309,7 @@
 
         <p class="scan-label">Scan to leave a review</p>
         <div class="qr-wrap">
-          <canvas id="qr"></canvas>
+          <img src="qr-review.svg" alt="QR Code — Leave a Review" />
         </div>
         <p class="review-url">search.google.com/local/writereview?placeid=ChIJabJoPAC7EmsRIwhq6cmAbTc</p>
 
@@ -341,18 +340,5 @@
     </div>
   </div>
 
-  <script>
-    QRCode.toCanvas(
-      document.getElementById('qr'),
-      'https://search.google.com/local/writereview?placeid=ChIJabJoPAC7EmsRIwhq6cmAbTc',
-      {
-        width: 200,
-        margin: 1,
-        color: { dark: '#0A0A0A', light: '#ffffff' },
-        errorCorrectionLevel: 'H'
-      },
-      err => { if (err) console.error(err); }
-    );
-  </script>
 </body>
 </html>
