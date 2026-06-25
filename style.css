@@ -133,7 +133,7 @@ section { padding: 100px 0; }
 }
 
 .logo-img {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   flex-shrink: 0;
   background: #fff;
